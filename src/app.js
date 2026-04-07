@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const HelloWordService = require('./services/hello-world');
 const bodyParser = require('body-parser');
@@ -5,6 +6,7 @@ const bodyParser = require('body-parser');
 const MovieRecommendationsService = require('./services/movie-recommendations');
 const configuration = require('./config/configuration');
 const { ChatGroq } = require('@langchain/groq');
+//const { GoogleGenerativeAI } = require('@langchain/google-generative-ai');
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,7 +15,7 @@ app.put('/post-test', async (req, res) => {
   const recommendations = await new MovieRecommendationsService(
     new ChatGroq({
       apiKey: configuration.groq.apiKey,
-      model: 'deepseek-r1-distill-llama-70b',
+      model: 'openai/gpt-oss-120b',
     })
   ).getMovieRecommendations(req.body);
   res.send(recommendations);
